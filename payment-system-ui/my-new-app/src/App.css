@@ -1,0 +1,140 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+:root {
+  --color1: #03045e;
+  --color2: #0077b6;
+  --color3: #00b4d8;
+  --color4: #90e0ef;
+  --color5: #caf0f8;
+}
+.App-header {
+  background-color: var(--color1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--color4);
+}
+.form__label {
+  padding-right: 20px; 
+}
+
+.App-link {
+  color: #61dafb;
+}
+ul {
+  list-style-type: none;
+  padding: 10;
+}
+
+ul .info {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s ease-in-out;
+  width: 100%;
+  margin-top: 16px;
+}
+.list {
+  width: 50%;
+}
+ul .info:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ul .info p {
+  margin: 8px 0;
+}
+
+.button {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+.list-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faded-text {
+  opacity: 0.7; 
+  font-size: 13px;
+}
+
+.container p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+}
+
+.error {
+  text-align: center;
+  font-size: 18px;
+  color: #f00;
+}
+.row {
+  display: flex;
+}
+
+.column {
+  margin: 0 10px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

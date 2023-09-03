@@ -1,0 +1,9 @@
+[
+  "REPAIR",
+  "VERIFY",
+  "APPROVE",
+  "AUTHORIZE",
+  "CANCELLED",
+  "COMPLETED",
+  "BLOCKED_BY_FRAUD"
+]

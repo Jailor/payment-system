@@ -1,0 +1,17 @@
+/* Home.css */
+
+.home-container {
+  display: flex;
+  flex-direction: column; /* Align items in a column */
+  justify-content: flex-start; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  margin: auto;
+  height: 100vh;
+}
+
+.welcome-text {
+  font-size: 36px;
+  color: #007bff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: auto;
+}

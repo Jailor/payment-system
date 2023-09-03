@@ -1,0 +1,123 @@
+package com.team1.paymentsystem.mappers;
+
+import com.team1.paymentsystem.dto.payment.PaymentDTO;
+import com.team1.paymentsystem.entities.Account;
+import com.team1.paymentsystem.entities.OrderNumber;
+import com.team1.paymentsystem.entities.Payment;
+import com.team1.paymentsystem.repositories.AccountRepository;
+import com.team1.paymentsystem.repositories.OrderNumberRepository;
+import com.team1.paymentsystem.repositories.PaymentRepository;
+import com.team1.paymentsystem.states.PaymentStatus;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+@Service
+public class PaymentMapper implements Mapper<PaymentDTO, Payment> {
+    @Autowired
+    PaymentRepository paymentRepository;
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    OrderNumberRepository orderNumberRepository;
+
+    @Override
+    public PaymentDTO toDTO(Payment entity) {
+        PaymentDTO paymentDTO = new PaymentDTO();
+        BeanUtils.copyProperties(entity, paymentDTO);
+        paymentDTO.setCreditAccountNumber(entity.getCreditAccount().getAccountNumber());
+        paymentDTO.setDebitAccountNumber(entity.getDebitAccount().getAccountNumber());
+        List<PaymentStatus> approveStatuses = List.of(PaymentStatus.APPROVE, PaymentStatus.AUTHORIZE,
+                PaymentStatus.VERIFY, PaymentStatus.REPAIR);
+        paymentDTO.setNeedsApproval(approveStatuses.contains(paymentDTO.getStatus()));
+        paymentDTO.setStringTimeStamp(entity.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        return paymentDTO;
+    }
+
+    //TODO: refactor this
+    @Override
+    public Payment toEntity(PaymentDTO dto) {
+        Payment payment = new Payment();
+        BeanUtils.copyProperties(dto, payment);
+        Payment db = paymentRepository.findBySystemReference(dto.getSystemReference()).orElse(new Payment());
+        payment.setId(db.getId());
+        payment.setVersion(db.getVersion());
+        if(payment.getCurrency() == null){
+            payment.setCurrency(db.getCurrency());
+        }
+        if(dto.getCreditAccountNumber() == null){
+            payment.setDebitAccount(db.getDebitAccount());
+            payment.setCreditAccount(db.getCreditAccount());
+        }
+        else {
+            Account creditAccount = accountRepository.findByAccountNumber(dto.getCreditAccountNumber()).orElse(new Account());
+            Account debitAccount = accountRepository.findByAccountNumber(dto.getDebitAccountNumber()).orElse(new Account());
+            payment.setCreditAccount(creditAccount);
+            payment.setDebitAccount(debitAccount);
+        }
+
+        if(dto.getAmount() == null){
+            payment.setAmount(db.getAmount());
+        }
+        if(dto.getUserReference() == null || dto.getUserReference().equals("")){
+            payment.setUserReference(db.getUserReference());
+        }
+
+       if(payment.getTimeStamp() == null && db.getTimeStamp() == null){
+
+            payment.setTimeStamp(LocalDateTime.now());
+        }
+        else if(payment.getTimeStamp() == null) payment.setTimeStamp(db.getTimeStamp());
+
+        if(payment.getSystemReference() == null || payment.getSystemReference().equals("")){
+            payment.setSystemReference(generateSystemReference(payment));
+        }
+        if(payment.getStatus() == null){
+            payment.setStatus(db.getStatus());
+        }
+        if(payment.getLongitude() == null || payment.getLatitude() == null){
+            payment.setLongitude(db.getLongitude());
+            payment.setLatitude(db.getLatitude());
+        }
+        if(payment.getNeededApproval() == null){
+            payment.setNeededApproval(db.getNeededApproval());
+            if(payment.getNeededApproval() == null){
+                payment.setNeededApproval(payment.getAmount() >= payment.getCurrency().getApproveThreshold());
+            }
+        }
+        return payment;
+    }
+
+    public synchronized String generateSystemReference(Payment payment){
+        String systemReference = "";
+        systemReference += LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd"));
+        systemReference += payment.getDebitAccount().getAccountNumber().substring(3,8);
+        systemReference += payment.getCreditAccount().getAccountNumber().substring(3,8);
+        Long nextOrderNumber = getNextOrderNumber();
+        String formattedOrderNumber = String.format("%04d", nextOrderNumber);
+        systemReference += formattedOrderNumber;
+        return systemReference;
+    }
+
+    public synchronized Long getNextOrderNumber(){
+        OrderNumber maybeOrderNumber = orderNumberRepository.findByDate(LocalDate.now()).orElse(null);
+        if(maybeOrderNumber == null){
+            OrderNumber orderNumber = new OrderNumber();
+            orderNumber.setDate(LocalDate.now());
+            orderNumber.setNumber(1L);
+            orderNumberRepository.save(orderNumber);
+            return orderNumber.getNumber();
+        }
+        else {
+            Long number = maybeOrderNumber.getNumber();
+            maybeOrderNumber.setNumber(number + 1L);
+            orderNumberRepository.save(maybeOrderNumber);
+            return number + 1L;
+        }
+    }
+}

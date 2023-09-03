@@ -1,0 +1,17 @@
+[
+  {
+    "name": "EUR",
+    "fractionDigits": 2,
+    "approveThreshold" : 5000
+  },
+  {
+    "name": "RON",
+    "fractionDigits": 2,
+    "approveThreshold" : 1000
+  },
+  {
+    "name": "USD",
+    "fractionDigits": 2,
+    "approveThreshold" : 50000
+  }
+]

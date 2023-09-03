@@ -1,0 +1,31 @@
+-> a user details page
+-> back buttons on some pages
+-> confirm delete on some pages
+-> 4 eyes check error in frontend (the approve files)
+-> write some unit tests
+-> repair operation for payment
+-> repair operations for entities
+-> refactor constants in frontend
+
+-> change password frontend + some backend logic   DONE
+-> new error reporting for operations manager DONE
+-> encypt passwords in the database DONE
+-> account code, unique, fixed, doar litere si numere DONE
+-> Frontend -> do not allow operations such as modify/delete{!!/block/unblock} when an
+entity is already awaiting approval DONE
+-> VALIDATION and inform user of validation in forms DONE
+-> when logging in, submitting forms, inform the user of any errors DONE
+-> when creating entities, only list related entities that are ACTIVE
+(user can only choose profile/profile name that are active) DONE
+-> account filtering DONE
+-> when creating some objects, you are redirected to "welcome user". Should be fixed. DONE
+-> new account operations-> block/unblock debit/credit DONE
+-> Block and unblock user operations -> frontend and backend DONE
+-> customer pages in frontend DONE
+-> integrate customer entity into account DONE
+-> dynamically generate menu for user profile DONE alexia
+-> get currency from configuration DONE/alexia
+-> in view account info, all approval payments come in instead of account specific
+-> when creating a customer that is a user, do it 
+-> modify the edit customer so that is sends the isDefaultAccount (not necessary)
+
