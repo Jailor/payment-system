@@ -26,6 +26,17 @@ The application has a complex flow, with lots of entities: accounts, users, prof
 - Spring Security - The application uses spring security for authenticating the users.
 - Frontend - React framework, boostrap, HTML, CSS, Javascript
 - Misc - Log4j for logging
-- **Tensorflow** - the model was trained using tensorflow (in google colab) then used as a REST api with flask that receives the data tensor and outputs if the payment is fraudulent or not.
+- **Tensorflow** - the model was trained using tensorflow (in google colab) then used as a REST api with flask that receives the data tensor and outputs if the payment is fraudulent or not. More information can be found in the notebook in the payment-system-fraud folder
 ## GUI :computer: 
+### Users
+![users](https://github.com/Jailor/payment-system/assets/44724573/9be99f89-fd08-4c23-b9e1-007a76d416f9)
+### Payments
+![payment](https://github.com/Jailor/payment-system/assets/44724573/283aa237-41b9-4860-97ac-79a43f7f4071)
+### Create payment
+![create_transaction](https://github.com/Jailor/payment-system/assets/44724573/9f7aff0e-b08c-4623-8491-6cb581bfdedc)
+### Payment History
+![transaction_history](https://github.com/Jailor/payment-system/assets/44724573/ee2c94c6-2773-4457-8825-e641d158cc89)
+### Audit
+![audit](https://github.com/Jailor/payment-system/assets/44724573/40d2acd1-3f2a-496e-8578-eed2ac187dc9)
+
 
