@@ -42,7 +42,7 @@ public class ApplicationConstants {
     public static final Double HOME_LONGITUDE = 23.59;
     public static final String GEOCODING_API_URL = "https://api.opencagedata.com/geocode/v1/json";
     public static final String GEOCODING_API_KEY = "1576541044ae4f49a80e259ac42d9f6c";
-    public static final Boolean CHECK_FRAUD = false;
+    public static final Boolean CHECK_FRAUD = true;
     public static final boolean N_EYES = false;
 
     public void loadConstants() {
