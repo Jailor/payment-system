@@ -10,8 +10,6 @@ axios.interceptors.request.use((config) => {
     const profileName = sessionStorage.getItem("profileName");
     const jsonWebToken = sessionStorage.getItem("jsonWebToken");
     
-    // const csrfToken = sessionStorage.getItem("csrfToken");
-    // const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
     if (username) {
       config.headers["username"] = username;
     }
@@ -21,11 +19,6 @@ axios.interceptors.request.use((config) => {
     if(jsonWebToken){
         config.headers["Authorization"] = `Bearer ${jsonWebToken}`;
     }
-    // if(csrfToken){
-    //     config.headers["X-XSRF-TOKEN"] = csrfToken;
-    //     config.headers["X-CSRF-TOKEN"] = csrfToken;
-    //     config._csrf = csrfToken;
-    // }
    
     console.log(config.headers + " " + config.url)
     return config;

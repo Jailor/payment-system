@@ -2,7 +2,6 @@ package com.team1.paymentsystem.entities;
 
 import com.team1.paymentsystem.entities.common.SystemObject;
 import com.team1.paymentsystem.states.Operation;
-import com.team1.paymentsystem.states.converters.OperationConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ import java.time.LocalDateTime;
 public class Audit extends SystemObject {
     @ManyToOne(targetEntity = User.class)
     private User user;
-    @Convert(converter = OperationConverter.class)
+    @Enumerated(EnumType.STRING)
     private Operation operation;
     @Column(name="object_id")
     private Long objectId;

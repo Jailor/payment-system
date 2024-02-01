@@ -21,6 +21,7 @@ import com.team1.paymentsystem.services.PasswordAuthentication;
 import com.team1.paymentsystem.services.entities.CustomerService;
 import com.team1.paymentsystem.services.entities.UserService;
 import com.team1.paymentsystem.services.validation.PasswordValidator;
+import com.team1.paymentsystem.states.ApplicationConstants;
 import com.team1.paymentsystem.states.Operation;
 import com.team1.paymentsystem.states.Status;
 import jakarta.persistence.OptimisticLockException;
@@ -39,6 +40,9 @@ import java.util.List;
 public class UserManager extends OperationManager<User, UserDTO> {
     @Autowired
     protected ApplicationContext context;
+    @Autowired
+    protected ApplicationConstants applicationConstants;
+
     @Override
     public OperationResponse manageOperation(UserDTO userDTO,
                                              Operation operation, String username){
@@ -46,16 +50,15 @@ public class UserManager extends OperationManager<User, UserDTO> {
         if(userStatusOperations.contains(operation)){
             return manageUserOperation(userDTO, operation, username);
         } else {
-            if(operation.equals(Operation.CREATE)){
-                String password = userDTO.getPassword();
-                PasswordValidator validator = context.getBean(PasswordValidator.class);
-                List<ErrorInfo> errors = validator.validate(password);
+            // before it is hashed
+            if(applicationConstants.CHECK_PASSWORD){
+                PasswordValidator passwordValidator = context.getBean(PasswordValidator.class);
+                List<ErrorInfo> errors = passwordValidator.validate(userDTO.getPassword());
                 if(!errors.isEmpty()){
                     OperationResponse response = new OperationResponse();
-                    response.addErrors(errors);
+                    response.setErrors(errors);
                     return response;
                 }
-
             }
             return super.manageOperation(userDTO, operation, username);
         }

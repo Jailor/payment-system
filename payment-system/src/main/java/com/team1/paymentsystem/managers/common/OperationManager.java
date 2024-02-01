@@ -38,7 +38,7 @@ import static com.team1.paymentsystem.states.Operation.*;
 @Transactional(rollbackFor = Exception.class)
 @Log
 @Primary
-public class OperationManager<T extends StatusObject, S extends SystemDTO> implements CrudManager<T, S> {
+public class OperationManager<T extends StatusObject, S extends SystemDTO> {
     @Autowired
     protected ApplicationContext context;
     @Autowired
@@ -54,7 +54,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username The username of the user performing the operation.
      * @return The operation response, containing the saved object on success, or error information on failure.
      */
-    @Override
     public OperationResponse save(T statusObject, String username) {
         OperationResponse operationResponse = authorizationManager.authorizeProfile(statusObject, username, CREATE);
         if (!operationResponse.isValid()) return operationResponse;
@@ -89,7 +88,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username The username of the user performing the operation.
      * @return The operation response, containing the updated object on success, or error information on failure.
      */
-    @Override
     public OperationResponse update(T statusObject, String username) {
         GeneralService<StatusObject, SystemDTO> generalService = managerUtils.getService(statusObject);
 
@@ -142,7 +140,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username The username of the user performing the operation.
      * @return The operation response, containing the removed object on success, or error information on failure.
      */
-    @Override
     public OperationResponse remove(T statusObject, String username) {
         GeneralService<StatusObject, SystemDTO> generalService = managerUtils.getService(statusObject);
         OperationResponse response = authorizeAndCheckStatus(statusObject, username, REMOVE);
@@ -174,7 +171,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username The username of the user performing the operation.
      * @return The operation response, containing the approved object on success, or error information on failure.
      */
-    @Override
     public OperationResponse approve(T statusObject, String username){
         GeneralService<StatusObject, SystemDTO> generalService = managerUtils.getService(statusObject);
         OperationResponse response = authorizeAndCheckStatus(statusObject, username, APPROVE);
@@ -212,7 +208,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username username of the user performing the operation
      * @return the operation response, with the rejected object as data object
      */
-    @Override
     public OperationResponse reject(T statusObject, String username){
         GeneralService<StatusObject, SystemDTO> generalService = managerUtils.getService(statusObject);
         OperationResponse response = authorizeAndCheckStatus(statusObject, username, REJECT);
@@ -272,13 +267,12 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
         return response;
     }
 
-    @Override
+
     public OperationResponse authorize(StatusObject statusObject, String username, Operation operation) {
         return authorizationManager.authorizeProfile(statusObject, username, operation);
     }
 
 
-    @Override
     public OperationResponse nEyesCheck(SystemObject obj, String username, int eyes) {
         OperationResponse response = new OperationResponse();
         managerUtils.fourEyesCheck(managerUtils.getService(obj), response, username, (StatusObject) obj);
@@ -290,7 +284,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username - the username of the user that is searching
      * @return a list of all the objects of the given type, wrapped in an operation response
      */
-    @Override
     public OperationResponse findAll(SystemObject systemObject, String username) {
         OperationResponse operationResponse = authorizationManager.authorizeProfile(systemObject, username, LIST);
         if (!operationResponse.isValid()) return operationResponse;
@@ -307,7 +300,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username - the username of the user that is searching
      * @return a list of all the objects of the given type that are not in REMOVED, APPROVE or REPAIR state
      */
-    @Override
     public OperationResponse findAllUsable(StatusObject statusObject, String username) {
         OperationResponse operationResponse = authorizationManager.authorizeProfile(statusObject, username, LIST);
         if (!operationResponse.isValid()) return operationResponse;
@@ -335,7 +327,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param obj - mock object to find the correct services and mappers
      * @return - the object that needs approval, wrapped in an approval DTO
      */
-    @Override
     public OperationResponse findAllNeedsApproval(StatusObject obj, String username){
         OperationResponse response = authorizationManager.authorizeProfile(obj, username, LIST);
         if(response.isValid()){
@@ -357,12 +348,11 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
         return response;
     }
 
-    @Override
     public OperationResponse findById(StatusObject obj, String username) {
         GeneralService generalService = managerUtils.getService(obj);
         return new OperationResponse(generalService.findById(obj.getId()));
     }
-    @Override
+
     public OperationResponse findByDiscriminant(StatusObject obj, String username) {
         GeneralService generalService = managerUtils.getService(obj);
         OperationResponse response;
@@ -390,7 +380,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param obj - dto used to find the entity
      * @return - the object that needs approval, wrapped in an approval DTO
      */
-    @Override
     public OperationResponse findNeedsApproval(StatusObject obj, String username){
         OperationResponse response = authorizationManager.authorizeProfile(obj, username, LIST);
         GeneralService generalService = managerUtils.getService(obj);
@@ -421,7 +410,6 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param username the username of the user performing the operation
      * @return the operation response, with any errors if applicable
      */
-    @Override
     public OperationResponse manageOperation(S systemDTO,
                                              Operation operation, String username){
         SystemObject mock = toEntity(systemDTO);
@@ -463,25 +451,21 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> imple
      * @param entity - the entity to be converted
      * @return the DTO representation of the entity
      */
-    @Override
     public S toDTO(T entity) {
         Mapper mapper = managerUtils.getMapper(entity);
         return (S) mapper.toDTO(entity);
     }
 
-    @Override
     public List toDTO(List<T> entities) {
         List dtos = entities.stream().map(this::toDTO).collect(Collectors.toList());
         return dtos;
     }
 
-    @Override
     public T toEntity(SystemDTO dto) {
         Mapper mapper = managerUtils.getMapper(dto);
         return (T) mapper.toEntity(dto);
     }
 
-    @Override
     public OperationResponse makeCopy(StatusObject entity) {
         GeneralService generalService = managerUtils.getService(entity);
         return new OperationResponse(generalService.makeCopy(entity));

@@ -9,6 +9,7 @@ import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
 import com.team1.paymentsystem.services.entities.PaymentService;
+import com.team1.paymentsystem.states.ApplicationConstants;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +29,9 @@ public class FraudPreventionServiceImpl implements FraudPreventionService{
     PaymentService paymentService;
     @Autowired
     RuleEngine ruleEngine;
-    @Value("${custom.token}")
-    private String token;
+
+    @Autowired
+    ApplicationConstants applicationConstants;
 
     private static final double EARTH_RADIUS = 6371000; // Radius of the Earth in meters
 
@@ -65,7 +67,7 @@ public class FraudPreventionServiceImpl implements FraudPreventionService{
                 log.severe(errorInfo.toString());
             }
         }
-        if(CHECK_FRAUD){
+        if(applicationConstants.CHECK_FRAUD){
             return response;
         }
         else {
@@ -84,8 +86,8 @@ public class FraudPreventionServiceImpl implements FraudPreventionService{
         }
         if(response.isValid()){
             if(payment.getLongitude() == null || payment.getLatitude() == null){
-                payment.setLatitude(HOME_LATITUDE);
-                payment.setLongitude(HOME_LONGITUDE);
+                payment.setLatitude(applicationConstants.HOME_LATITUDE);
+                payment.setLongitude(applicationConstants.HOME_LONGITUDE);
                 log.info("Payment location is not available. Setting location to home location");
             }
             if(payment.getNeededApproval() == null){
@@ -144,12 +146,12 @@ public class FraudPreventionServiceImpl implements FraudPreventionService{
      * @implNote the machine learning model is a REST API that returns a JSON response
      */
     private boolean performFraudPrediction(double[] data) {
-        String apiUrl = FRAUD_API_URL;
+        String apiUrl = applicationConstants.FRAUD_API_URL;
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-Custom-Token", token);
+        headers.set("X-Custom-Token", applicationConstants.API_TOKEN);
 
         // Convert double array to JSON string
         String requestBody = "{\"data\": " + Arrays.toString(data) + "}";
@@ -219,10 +221,11 @@ public class FraudPreventionServiceImpl implements FraudPreventionService{
 
         if(city == null || state == null || country == null){
             log.severe("Customer location is not available. Setting location to home location");
-            return new Pair<>(HOME_LATITUDE, HOME_LONGITUDE);
+            return new Pair<>(applicationConstants.HOME_LATITUDE, applicationConstants.HOME_LONGITUDE);
         }
         else {
-            String requestUrl = String.format("%s?q=%s,%s,%s&key=%s", GEOCODING_API_URL, city, state, country, GEOCODING_API_KEY);
+            String requestUrl = String.format("%s?q=%s,%s,%s&key=%s",
+                    applicationConstants.GEOCODING_API_URL, city, state, country, applicationConstants.GEOCODING_API_KEY);
 
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -248,6 +251,6 @@ public class FraudPreventionServiceImpl implements FraudPreventionService{
                 log.info("Error fetching geolocation: " + e.getMessage());
             }
         }
-        return new Pair<>(HOME_LATITUDE, HOME_LONGITUDE);
+        return new Pair<>(applicationConstants.HOME_LATITUDE, applicationConstants.HOME_LONGITUDE);
     }
 }

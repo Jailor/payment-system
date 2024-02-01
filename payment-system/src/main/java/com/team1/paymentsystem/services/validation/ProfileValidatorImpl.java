@@ -104,7 +104,7 @@ public class ProfileValidatorImpl implements ProfileValidator  {
         List<ProfileRight> maxAllowed = maxProfileRights.get(profile.getProfileType());
         if(!new HashSet<>(maxAllowed).containsAll(profileRightsList)){
             if(profileType != null){
-                errors.add(new ErrorInfo(ErrorType.VALIDATION_ERROR, "Profile right type" + profileType.getName()
+                errors.add(new ErrorInfo(ErrorType.VALIDATION_ERROR, "Profile right type" + profileType
                         + " does not allow for all the given rights"));
             }
         }

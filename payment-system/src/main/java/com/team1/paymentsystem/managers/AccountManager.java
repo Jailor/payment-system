@@ -185,17 +185,17 @@ public class AccountManager extends OperationManager<Account, AccountDTO> {
      * @param response - the operation response, with errors if any
      */
     private void processAccountStatusOperation(Account account, Operation operation, OperationResponse response) {
-        switch (operation.getName()) {
-            case "CLOSE" -> processCloseOperation(account, response);
-            case "BLOCK" -> processBlockOperation(account, response);
-            case "BLOCK_CREDIT" -> processBlockCreditOperation(account, response);
-            case "BLOCK_DEBIT" -> processBlockDebitOperation(account, response);
-            case "UNBLOCK" -> processUnblockOperation(account, response);
-            case "UNBLOCK_CREDIT" -> processUnblockCreditOperation(account, response);
-            case "UNBLOCK_DEBIT" -> processUnblockDebitOperation(account, response);
+        switch (operation) {
+            case CLOSE -> processCloseOperation(account, response);
+            case BLOCK -> processBlockOperation(account, response);
+            case BLOCK_CREDIT-> processBlockCreditOperation(account, response);
+            case BLOCK_DEBIT -> processBlockDebitOperation(account, response);
+            case UNBLOCK -> processUnblockOperation(account, response);
+            case UNBLOCK_CREDIT -> processUnblockCreditOperation(account, response);
+            case UNBLOCK_DEBIT -> processUnblockDebitOperation(account, response);
             default -> {
                 response.addError(new ErrorInfo(ErrorType.VALIDATION_ERROR,
-                        "Operation not supported: " + operation.getName()));
+                        "Operation not supported: " + operation));
             }
         }
     }

@@ -3,7 +3,6 @@ package com.team1.paymentsystem.entities.common;
 import com.team1.paymentsystem.entities.Customer;
 import com.team1.paymentsystem.states.AccountStatus;
 import com.team1.paymentsystem.states.Currency;
-import com.team1.paymentsystem.states.converters.AccountStatusConverter;
 import com.team1.paymentsystem.states.converters.CurrencyConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +20,7 @@ public abstract class AbstractAccount extends StatusObject{
     @Convert(converter = CurrencyConverter.class)
     @Column(nullable = false)
     private Currency currency;
-    @Convert(converter = AccountStatusConverter.class)
     @Column(name="account_status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 }

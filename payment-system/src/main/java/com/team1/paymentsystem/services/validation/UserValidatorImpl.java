@@ -4,6 +4,7 @@ import com.team1.paymentsystem.entities.Profile;
 import com.team1.paymentsystem.entities.User;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
+import com.team1.paymentsystem.managers.response.OperationResponse;
 import com.team1.paymentsystem.repositories.UserRepository;
 import com.team1.paymentsystem.states.Operation;
 import com.team1.paymentsystem.states.Status;
@@ -21,6 +22,8 @@ public class UserValidatorImpl implements UserValidator{
     ProfileValidator profileValidator;
     @Autowired
     EmailValidator emailValidator;
+    @Autowired
+    PasswordValidator passwordValidator;
 
     @Override
     public List<ErrorInfo> validate(User user, Operation operation) {
@@ -102,6 +105,7 @@ public class UserValidatorImpl implements UserValidator{
         if(address == null || address.equals("")){
             errors.add(new ErrorInfo(ErrorType.VALIDATION_ERROR, "Address is required"));
         }
+
         return errors;
     }
 }

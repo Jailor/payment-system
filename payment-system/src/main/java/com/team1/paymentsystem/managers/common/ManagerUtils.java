@@ -19,6 +19,7 @@ import com.team1.paymentsystem.mappers.*;
 import com.team1.paymentsystem.mappers.approve.*;
 import com.team1.paymentsystem.services.entities.*;
 import com.team1.paymentsystem.services.entities.history.*;
+import com.team1.paymentsystem.states.ApplicationConstants;
 import com.team1.paymentsystem.states.Operation;
 import com.team1.paymentsystem.states.Status;
 import lombok.extern.java.Log;
@@ -29,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-import static com.team1.paymentsystem.states.ApplicationConstants.N_EYES;
 
 @Component
 @Transactional(rollbackFor = Exception.class)
@@ -37,6 +37,9 @@ import static com.team1.paymentsystem.states.ApplicationConstants.N_EYES;
 public class ManagerUtils {
     @Autowired
     ApplicationContext context;
+
+    @Autowired
+    ApplicationConstants applicationConstants;
 
     /**
      * used to map to dto and vice versa, extensible using the getMapper method
@@ -65,7 +68,7 @@ public class ManagerUtils {
             boolean ok = generalService.fourEyesCheck(returnObject, username,4);
             if(!ok){
                 log.severe("Four eyes check failed for approval " + username + " " + returnObject.getClass().getSimpleName());
-                if(N_EYES){
+                if(applicationConstants.N_EYES){
                     operationResponse.addError(new ErrorInfo(ErrorType.FOUR_EYES_ERROR,
                             "Four eyes check failed for approval " + username +
                                     " and object " + returnObject.getClass().getSimpleName()));
@@ -83,7 +86,7 @@ public class ManagerUtils {
             if(!ok){
                 log.severe(eyes + " eyes check failed for approval payment "
                         + username + " " + payment.getSystemReference());
-                if(N_EYES) {
+                if(applicationConstants.N_EYES) {
                     response.addError(new ErrorInfo(ErrorType.FOUR_EYES_ERROR,
                             eyes + " eyes check failed for approval " + username +
                                     " and payment " + payment.getSystemReference()));

@@ -14,10 +14,8 @@ import {
   AiOutlineLock,
 } from "react-icons/ai";
 import { FaGem, FaHeart, FaUser } from "react-icons/fa";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import ViewUsers from "./User/ViewUsers";
-import { UserContextProvider, useUserContext } from './User/UserContext';
-import { useCustomerContext } from "./Customer/CustomerContext";
+import { Link } from "react-router-dom";
+
 import {
   Menu,
   MenuItem,
@@ -28,7 +26,6 @@ import {
 import "react-pro-sidebar/dist/css/styles.css";
 const SideNavigation = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { customerObject } = useCustomerContext();
   const profileType = sessionStorage.getItem("profileType");
   const rights = sessionStorage.getItem("rights");
   const username = sessionStorage.getItem("username");

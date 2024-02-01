@@ -115,7 +115,7 @@ function ViewHistory(props) {
                     <span style={spanStyle}>Email: {object.email}</span> <br/>
                     <span style={spanStyle}>Address: {object.address}</span> <br/>
                     <span style={spanStyle}>Profile: {object.profileName}</span> <br/>
-                    <span style={spanStyle}>Status: {object.status.name}</span> <br/>
+                    <span style={spanStyle}>Status: {object.status}</span> <br/>
                     <span style={spanStyle}>
                       Timestamp: {object.stringTimeStamp}
                     </span>
@@ -129,12 +129,12 @@ function ViewHistory(props) {
                   <p>
                     <span style={spanStyle}>Name: {object.name}</span> <br/>
                     <span style={spanStyle}>
-                      Profile Type: {object.profileType.name}
+                      Profile Type: {object.profileType}
                     </span> <br/> 
                     <span style={spanStyle}>
                       Rights: {object.rights.join(", ")}
                     </span> <br/>
-                    <span style={spanStyle}>Status: {object.status.name}</span> <br/>
+                    <span style={spanStyle}>Status: {object.status}</span> <br/>
                     <span style={spanStyle}>
                       Timestamp: {object.stringTimeStamp}
                     </span>
@@ -154,9 +154,9 @@ function ViewHistory(props) {
                       Currency: {object.currency.name}
                     </span> <br/>
                     <span style={spanStyle}>
-                      Account Status: {object.accountStatus.name}
+                      Account Status: {object.accountStatus}
                     </span> <br/>
-                    <span style={spanStyle}>Status: {object.status.name}</span> <br/>
+                    <span style={spanStyle}>Status: {object.status}</span> <br/>
                     <span style={spanStyle}> 
                       Timestamp: {object.stringTimeStamp}
                     </span>
@@ -177,7 +177,7 @@ function ViewHistory(props) {
                     <span style={spanStyle}>City: {object.city}</span>
                     <span style={spanStyle}>State: {object.state}</span>
                     <span style={spanStyle}>Country: {object.country}</span>
-                    <span style={spanStyle}>Status: {object.status.name}</span>
+                    <span style={spanStyle}>Status: {object.status}</span>
                     <span style={spanStyle}>
                       Timestamp: {object.stringTimeStamp}
                     </span>
@@ -207,7 +207,7 @@ function ViewHistory(props) {
                       </div>
                     )}
                     <span className="transaction-info">At: {object.stringTimeStamp}</span>
-                    <span className="transaction-info">Status: {object.status.name}</span>
+                    <span className="transaction-info">Status: {object.status}</span>
                     <span className="transaction-info">Timestamp: {object.stringHistoryTimeStamp}</span>
                   </div>
                 )}

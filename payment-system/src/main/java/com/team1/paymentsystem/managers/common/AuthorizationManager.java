@@ -41,13 +41,13 @@ public class AuthorizationManager {
         OperationResponse operationResponse = new OperationResponse();
         if(check == null){
             operationResponse.addError(new ErrorInfo(ErrorType.AUTHORIZATION_ERROR,
-                    "You are not authorized to perform this operation: " + operation.getName()
+                    "You are not authorized to perform this operation: " + operation
                             + " because the entity does not support such an operation"));
         }
 
         if (check != null && !authorizeProfileOperation(username, check)) {
             operationResponse.addError(new ErrorInfo(ErrorType.AUTHORIZATION_ERROR,
-                    "You are not authorized to perform this operation: " + operation.getName() + " because" +
+                    "You are not authorized to perform this operation: " + operation + " because" +
                             "you do not have the right: " + check.name()));
         }
         return operationResponse;

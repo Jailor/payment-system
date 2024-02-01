@@ -25,25 +25,38 @@ import static com.team1.paymentsystem.states.Currency.*;
 @Log
 @Component
 public class ApplicationConstants {
-    @Value("${custom.token}")
-    private String token;
     @Autowired
     ApplicationContext context;
+
+    @Value("${custom.token}")
+    public String API_TOKEN;
+    @Value("${custom.fraud-url}")
+    public String FRAUD_API_URL;
+
+    @Value("${custom.home.latitude}")
+    public Double HOME_LATITUDE;
+    @Value("${custom.home.longitude}")
+    public Double HOME_LONGITUDE;
+    @Value("${custom.geocoding.url}")
+    public String GEOCODING_API_URL;
+    @Value("${custom.geocoding.key}")
+    public String GEOCODING_API_KEY;
+    @Value("${custom.check-fraud}")
+    public Boolean CHECK_FRAUD;
+    @Value("${custom.check-password}")
+    public boolean CHECK_PASSWORD;
+    @Value("${custom.n-eyes}")
+    public boolean N_EYES;
+
     public static final HashMap<ProfileType, List<ProfileRight>> maxProfileRights = new HashMap<>();
-    public static List<String> statuses = new ArrayList<>();
-    public static List<Currency> currencies = new ArrayList<>();
-    public static List<String> accountStatuses = new ArrayList<>();
-    public static List<String> profileTypes = new ArrayList<>();
-    public static List<String> paymentStatuses = new ArrayList<>();
-    //public static final Long GENERAL_APPROVE_THRESHOLD = 50000L;
+
+    public static final List<String> statuses = new ArrayList<>();
+    public static final List<Currency> currencies = new ArrayList<>();
+    public static final List<String> accountStatuses = new ArrayList<>();
+    public static final List<String> profileTypes = new ArrayList<>();
+    public static final List<String> paymentStatuses = new ArrayList<>();
+
     public static Boolean isFraudServiceEnabled = true;
-    public static final String FRAUD_API_URL = "http://localhost:5000/predict";
-    public static final Double HOME_LATITUDE = 46.75;
-    public static final Double HOME_LONGITUDE = 23.59;
-    public static final String GEOCODING_API_URL = "https://api.opencagedata.com/geocode/v1/json";
-    public static final String GEOCODING_API_KEY = "1576541044ae4f49a80e259ac42d9f6c";
-    public static final Boolean CHECK_FRAUD = true;
-    public static final boolean N_EYES = false;
 
     public void loadConstants() {
         loadMaxProfileRights();
@@ -89,7 +102,7 @@ public class ApplicationConstants {
 
             // Deserialize the JSON content into a List of strings
             ObjectMapper objectMapper = new ObjectMapper();
-            statuses = objectMapper.readValue(inputStream, List.class);
+            statuses.addAll(objectMapper.readValue(inputStream, List.class));
 
             // Close the input stream
             inputStream.close();
@@ -109,7 +122,7 @@ public class ApplicationConstants {
 
             // Deserialize the JSON content into a List of currencies
             ObjectMapper objectMapper = new ObjectMapper();
-            currencies = objectMapper.readValue(inputStream, new TypeReference<List<Currency>>() {});
+            currencies.addAll(objectMapper.readValue(inputStream, new TypeReference<List<Currency>>() {}));
             // Close the input stream
             inputStream.close();
 
@@ -134,7 +147,7 @@ public class ApplicationConstants {
 
             // Deserialize the JSON content into a List of account statuses
             ObjectMapper objectMapper = new ObjectMapper();
-            accountStatuses = objectMapper.readValue(inputStream, List.class);
+            accountStatuses.addAll(objectMapper.readValue(inputStream, List.class));
 
             // Close the input stream
             inputStream.close();
@@ -153,7 +166,7 @@ public class ApplicationConstants {
 
             // Deserialize the JSON content into a List of profile types
             ObjectMapper objectMapper = new ObjectMapper();
-            profileTypes = objectMapper.readValue(inputStream, List.class);
+            profileTypes.addAll(objectMapper.readValue(inputStream, List.class));
 
             // Close the input stream
             inputStream.close();
@@ -172,7 +185,7 @@ public class ApplicationConstants {
 
             // Deserialize the JSON content into a List of payment statuses
             ObjectMapper objectMapper = new ObjectMapper();
-            paymentStatuses = objectMapper.readValue(inputStream, List.class);
+            paymentStatuses.addAll(objectMapper.readValue(inputStream, List.class));
 
             // Close the input stream
             inputStream.close();
@@ -188,7 +201,7 @@ public class ApplicationConstants {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-Custom-Token", token);
+        headers.set("X-Custom-Token", API_TOKEN);
 
         String requestBody = "{\"data\": [0.5, 1.2, 2.3, 0.8]}";
 
@@ -197,14 +210,14 @@ public class ApplicationConstants {
         try {
             ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
             if (response.getStatusCode().is2xxSuccessful()) {
-                System.out.println( "Request sent successfully: " + response.getBody());
+                log.info("Request successful");
                 ApplicationConstants.isFraudServiceEnabled = true;
             } else {
-                System.out.println( "Request failed with status: " + response.getStatusCodeValue());
+                log.info("Request failed with status: " + response.getStatusCodeValue());
                 ApplicationConstants.isFraudServiceEnabled = false;
             }
         } catch (Exception e) {
-            System.out.println( "Error sending request: " + e.getMessage());
+            log.info("Request failed with exception: " + e.getMessage());
             ApplicationConstants.isFraudServiceEnabled = false;
         }
     }

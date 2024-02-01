@@ -4,6 +4,8 @@ import com.team1.paymentsystem.dto.payment.PaymentDTO;
 import com.team1.paymentsystem.entities.Account;
 import com.team1.paymentsystem.entities.OrderNumber;
 import com.team1.paymentsystem.entities.Payment;
+import com.team1.paymentsystem.managers.response.ErrorInfo;
+import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.repositories.AccountRepository;
 import com.team1.paymentsystem.repositories.OrderNumberRepository;
 import com.team1.paymentsystem.repositories.PaymentRepository;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -55,8 +59,9 @@ public class PaymentMapper implements Mapper<PaymentDTO, Payment> {
             payment.setCreditAccount(db.getCreditAccount());
         }
         else {
-            Account creditAccount = accountRepository.findByAccountNumber(dto.getCreditAccountNumber()).orElse(new Account());
-            Account debitAccount = accountRepository.findByAccountNumber(dto.getDebitAccountNumber()).orElse(new Account());
+            Account creditAccount = accountRepository.findByAccountNumber(dto.getCreditAccountNumber()).orElse(null);
+            Account debitAccount = accountRepository.findByAccountNumber(dto.getDebitAccountNumber()).orElse(null);
+
             payment.setCreditAccount(creditAccount);
             payment.setDebitAccount(debitAccount);
         }
@@ -93,11 +98,35 @@ public class PaymentMapper implements Mapper<PaymentDTO, Payment> {
         return payment;
     }
 
+    public List<ErrorInfo> preValidate(PaymentDTO dto){
+        List<ErrorInfo> errorInfos = new LinkedList<>();
+        if(dto.getCreditAccountNumber() != null){
+            Account creditAccount = accountRepository.findByAccountNumber(dto.getCreditAccountNumber()).orElse(null);
+            Account debitAccount = accountRepository.findByAccountNumber(dto.getDebitAccountNumber()).orElse(null);
+            if(creditAccount == null || debitAccount == null){
+                errorInfos.add(new ErrorInfo(ErrorType.VALIDATION_ERROR, "Account does not exist"));
+                return errorInfos;
+            }
+        }
+        return errorInfos;
+    }
+
     public synchronized String generateSystemReference(Payment payment){
         String systemReference = "";
-        systemReference += LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd"));
-        systemReference += payment.getDebitAccount().getAccountNumber().substring(3,8);
-        systemReference += payment.getCreditAccount().getAccountNumber().substring(3,8);
+        systemReference += LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        String debitAccountNumber = payment.getDebitAccount().getAccountNumber();
+        String creditAccountNumber = payment.getCreditAccount().getAccountNumber();
+
+        if(debitAccountNumber != null && creditAccountNumber != null){
+            systemReference += debitAccountNumber.substring(3,8);
+            systemReference += creditAccountNumber.substring(3,8);
+        }
+        else {
+            systemReference += "00000";
+            systemReference += "00000";
+        }
+
         Long nextOrderNumber = getNextOrderNumber();
         String formattedOrderNumber = String.format("%04d", nextOrderNumber);
         systemReference += formattedOrderNumber;

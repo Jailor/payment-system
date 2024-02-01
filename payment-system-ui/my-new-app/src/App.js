@@ -1,43 +1,39 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate  } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import Header from "./components/Header";
 import SideNavigation from "./components/SideNavigation";
 import Home from "./components/Home";
-import UserForm from "./components/User/UserForm";
-import ViewUsers from "./components/User/ViewUsers";
+import UserForm from "./components/Entities/User/UserForm";
+import ViewUsers from "./components/Entities/User/ViewUsers";
 import ViewHistory from "./components/ListView/ViewHistory";
-import ViewUserInformation from "./components/User/ViewUserInformation";
+import ViewUserInformation from "./components/Entities/User/ViewUserInformation";
 import ViewAudit from "./components/ListView/ViewAudit";
-import ViewProfiles from "./components/Profile/ViewProfiles";
-import ProfileForm from "./components/Profile/ProfileForm";
-import LoginPage from "./components/Login/LoginPage";
-import Logout from "./components/Login/Logout";
-import AccountForm from "./components/Account/AccountForm";
-import { UserContextProvider } from "./components/User/UserContext";
-import { ProfileContextProvider } from "./components/Profile/ProfileContext";
-import ViewProfileInformation from "./components/Profile/ViewProfileInformation";
-import ApproveUsers from "./components/User/ApproveUsers";
-import ApproveProfiles from "./components/Profile/ApproveProfiles";
+import ViewProfiles from "./components/Entities/Profile/ViewProfiles";
+import ProfileForm from "./components/Entities/Profile/ProfileForm";
+import LoginPage from "./components/auth/LoginPage.js";
+import Logout from "./components/auth/Logout.js";
+import AccountForm from "./components/Entities/Account/AccountForm";
+import { UserContextProvider } from "./components/Entities/User/UserContext";
+import { ProfileContextProvider } from "./components/Entities/Profile/ProfileContext";
+import ViewProfileInformation from "./components/Entities/Profile/ViewProfileInformation";
+import ApproveUsers from "./components/Entities/User/ApproveUsers";
+import ApproveProfiles from "./components/Entities/Profile/ApproveProfiles";
 import ViewApprove from "./components/ListView/ViewApprove";
-import { useNavigate } from "react-router-dom";
-import { AccountContextProvider } from "./components/Account/AccountContext";
-import PrivateRoute from "./components/PrivateRoute";
-import { Outlet } from "react-router-dom";
-import ViewAccounts from "./components/Account/ViewAccounts";
+import { AccountContextProvider } from "./components/Entities/Account/AccountContext";
+import ViewAccounts from "./components/Entities/Account/ViewAccounts";
 import { isLoggedInCheck } from "./components/auth/AuthUtils.js";
-import ViewAccountInformation from "./components/Account/ViewAccountInformation";
-import ApproveAccounts from "./components/Account/ApproveAccounts";
-import ChangePassword from "./components/Login/ChangePassword";
-import RedirectReq from "./components/RedirectReq";
-import ViewCustomers from "./components/Customer/ViewCustomers";
-import { CustomerContextProvider } from "./components/Customer/CustomerContext";
-import CustomerForm from "./components/Customer/CustomerForm";
-import ApproveCustomers from "./components/Customer/ApproveCustomers";
-import ViewCustomerInformation from "./components/Customer/ViewCustomerInformation";
-import { BalanceContextProvider } from "./components/Balance/BalanceContext";
-import ApprovePayments from "./components/Payment/ApprovePayments";
-import ViewPayments from "./components/Payment/ViewPayments";
+import ViewAccountInformation from "./components/Entities/Account/ViewAccountInformation";
+import ApproveAccounts from "./components/Entities/Account/ApproveAccounts";
+import ChangePassword from "./components/auth/ChangePassword.js";
+import ViewCustomers from "./components/Entities/Customer/ViewCustomers";
+import { CustomerContextProvider } from "./components/Entities/Customer/CustomerContext";
+import CustomerForm from "./components/Entities/Customer/CustomerForm";
+import ApproveCustomers from "./components/Entities/Customer/ApproveCustomers";
+import ViewCustomerInformation from "./components/Entities/Customer/ViewCustomerInformation";
+import { BalanceContextProvider } from "./components/Entities/Balance/BalanceContext";
+import ApprovePayments from "./components/Entities/Payment/ApprovePayments";
+import ViewPayments from "./components/Entities/Payment/ViewPayments";
 
 function App() {
   const styles = {
@@ -63,9 +59,10 @@ function App() {
                 </Row>
                 <div style={styles.contentDiv}>
                   <Router>
-                    {isLoggedInCheck() && <SideNavigation />}
+                  {isLoggedInCheck() && <SideNavigation />}
                     <Routes>
-                      <Route path="/" element={<LoginPage />} />
+                      {!isLoggedInCheck() && <Route path="/" element={<LoginPage />} />}
+                      {isLoggedInCheck() && <Route path="/" element={<Home />} />}
                       <Route path="/welcome-user" element={<Home />} />
                       <Route path="/login" element={<LoginPage />} />
                       <Route path="/logout" element={<Logout />} />
@@ -151,10 +148,7 @@ function App() {
                       />
                       <Route path="/approve-payments" element={<ApprovePayments/>} />
                       <Route path="/view-payments" element={<ViewPayments/>} />
-                      <Route
-                        path="/redirect/:redirect"
-                        element={<RedirectReq />}
-                      />
+                      <Route path="*" element={<Home />} />
                     </Routes>
                   </Router>
                 </div>

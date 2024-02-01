@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService{
                 && !status.equals(Status.APPROVE) && !status.equals(Status.REPAIR);
         if(!okStatus){
             response.addError(new ErrorInfo(ErrorType.AUTHENTICATION_ERROR, "Your status is "+
-                    status.getName().toLowerCase()+". Please contact the administrator."));
+                    status.name().toLowerCase()+". Please contact the administrator."));
             return response;
         }
         boolean okPassword = passwordAuthentication.authenticate(password.toCharArray(), user.getPassword());

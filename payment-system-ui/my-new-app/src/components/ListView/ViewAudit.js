@@ -73,7 +73,7 @@ function ViewAudit() {
               <p>
                 <span style={spanStyle}>Username: {object.username}</span>
                 <span style={spanStyle}>
-                  Operation: {object.operation.name}
+                  Operation: {object.operation}
                 </span>
                 <span style={spanStyle}>
                   Timestamp: {formatDate(object.timeStamp)}

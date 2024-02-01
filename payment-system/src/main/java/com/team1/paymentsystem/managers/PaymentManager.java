@@ -60,8 +60,11 @@ public class PaymentManager {
     public OperationResponse managePaymentOperation(PaymentDTO paymentDTO,
                                                     Operation operation, String username){
         PaymentMapper mapper = context.getBean(PaymentMapper.class);
-        Payment mock = mapper.toEntity(paymentDTO);
         OperationResponse response = new OperationResponse();
+        response.addErrors(mapper.preValidate(paymentDTO));
+        if(!response.isValid()) return response;
+
+        Payment mock = mapper.toEntity(paymentDTO);
         if(mock == null){
             response.addError(new ErrorInfo(ErrorType.INTERNAL_ERROR, "The data" +
                     "sent could not be mapped to an entity. Please check the data sent."));
@@ -128,23 +131,22 @@ public class PaymentManager {
      * Processes a given payment, according to operation
      * @return the payment payload if successful, null otherwise
      */
-    private Payment processPayment(Payment payment, Operation operation, String username, OperationResponse response) {
-        String operationName = operation.getName();
-        Payment payload = switch (operationName) {
-            case "CREATE" -> processCreate(payment, response);
-            case "CREATE_MOBILE" ->{
+    private Payment processPayment(Payment payment, Operation operation, String username, OperationResponse response) {;
+        Payment payload = switch (operation) {
+            case CREATE -> processCreate(payment, response);
+            case CREATE_MOBILE->{
                 Payment payment1 = processCreate(payment, response);
                 if(response.isValid()){
                     payment1 = processVerify(payment, response, username);
                 }
                 yield payment1;
             }
-            case "VERIFY" -> processVerify(payment, response, username);
-            case "APPROVE" -> processApprove(payment, response, username);
-            case "AUTHORIZE" -> processAuthorize(payment, response, username);
-            case "CANCEL" -> processCancel(payment, response, username);
-            case "REPAIR" -> processRepair(payment, response, username);
-            case "UNBLOCK_FRAUD" -> processUnblockFraud(payment, response, username);
+            case VERIFY -> processVerify(payment, response, username);
+            case APPROVE -> processApprove(payment, response, username);
+            case AUTHORIZE -> processAuthorize(payment, response, username);
+            case CANCEL -> processCancel(payment, response, username);
+            case REPAIR -> processRepair(payment, response, username);
+            case UNBLOCK_FRAUD -> processUnblockFraud(payment, response, username);
             default -> null;
         };
 

@@ -3,14 +3,13 @@ package com.team1.paymentsystem;
 import com.team1.paymentsystem.repositories.BalanceRepository;
 import com.team1.paymentsystem.repositories.ProfileRepository;
 import com.team1.paymentsystem.services.entities.PaymentService;
+import com.team1.paymentsystem.states.ApplicationConstants;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.*;
-
-import static com.team1.paymentsystem.states.ApplicationConstants.FRAUD_API_URL;
 
 @SpringBootTest
 class PaymentSystemApplicationTests {
@@ -22,6 +21,8 @@ class PaymentSystemApplicationTests {
 	private PaymentService paymentService;
 	@Autowired
 	private BalanceRepository balanceRepository;
+	@Autowired
+	private ApplicationConstants applicationConstants;
 
 	@Test
 	void contextLoads() throws InterruptedException {
@@ -89,7 +90,7 @@ class PaymentSystemApplicationTests {
 
 	@Test
 	void sendRequest() {
-		String apiUrl = FRAUD_API_URL;
+		String apiUrl = applicationConstants.FRAUD_API_URL;
 		TestRestTemplate restTemplate = new TestRestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();

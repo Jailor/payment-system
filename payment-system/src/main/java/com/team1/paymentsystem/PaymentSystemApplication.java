@@ -15,8 +15,6 @@ import org.springframework.context.ApplicationContext;
 public class PaymentSystemApplication extends SpringBootServletInitializer {
 	@Autowired
 	ApplicationConstants applicationConstants;
-	@Autowired
-	ApplicationContext context;
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
 		return builder.sources(PaymentSystemApplication.class);
@@ -28,7 +26,7 @@ public class PaymentSystemApplication extends SpringBootServletInitializer {
 
 	@PostConstruct
 	public void init() {
-		log.info("Application started");
 		applicationConstants.loadConstants();
+		log.info("Constants loaded!");
 	}
 }

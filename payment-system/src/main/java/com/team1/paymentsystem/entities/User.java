@@ -11,14 +11,4 @@ import java.security.SecureRandom;
 @Entity
 @Table(name = "user_table")
 public class User extends AbstractUser {
-//    @Column(name = "is_using_2fa")
-//    private Boolean isUsing2FA;
-//    private String secret;
-//    public User(){
-//        super();
-//        SecureRandom secureRandom = new SecureRandom();
-//        int bytes = (int) (System.currentTimeMillis() % 100);
-//        secureRandom.setSeed(secureRandom.generateSeed(bytes));
-//        this.secret = String.valueOf(secureRandom.nextInt(1000000));
-//   }
 }
