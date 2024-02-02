@@ -2,7 +2,7 @@ package com.team1.paymentsystem.services.entities;
 
 import com.team1.paymentsystem.entities.Account;
 import com.team1.paymentsystem.entities.User;
-import com.team1.paymentsystem.mappers.PaymentMapper;
+import com.team1.paymentsystem.mappers.entity.PaymentMapper;
 import com.team1.paymentsystem.dto.payment.PaymentDTO;
 import com.team1.paymentsystem.entities.Audit;
 import com.team1.paymentsystem.entities.Payment;
@@ -124,8 +124,8 @@ public class PaymentServiceImpl implements PaymentService{
         return paymentRepository.findBySystemReference(obj.getSystemReference()).orElse(null);
     }
     @Override
-    public Payment toEntity(PaymentDTO paymentDTO) {
-        return paymentMapper.toEntity(paymentDTO);
+    public Payment toEntity(PaymentDTO paymentDTO, Operation operation) {
+        return paymentMapper.toEntity(paymentDTO, operation);
     }
 
     @Override

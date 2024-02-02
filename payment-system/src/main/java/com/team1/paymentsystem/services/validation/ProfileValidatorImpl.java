@@ -1,6 +1,6 @@
 package com.team1.paymentsystem.services.validation;
 
-import com.team1.paymentsystem.mappers.ProfileMapper;
+import com.team1.paymentsystem.mappers.entity.ProfileMapper;
 import com.team1.paymentsystem.entities.Profile;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;

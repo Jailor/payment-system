@@ -1,7 +1,7 @@
 package com.team1.paymentsystem.services.entities;
 
 import com.team1.paymentsystem.dto.customer.CustomerDTO;
-import com.team1.paymentsystem.mappers.CustomerMapper;
+import com.team1.paymentsystem.mappers.entity.CustomerMapper;
 import com.team1.paymentsystem.entities.Audit;
 import com.team1.paymentsystem.entities.Customer;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
@@ -80,8 +80,8 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer toEntity(CustomerDTO customerDTO) {
-        return customerMapper.toEntity(customerDTO);
+    public Customer toEntity(CustomerDTO customerDTO, Operation operation) {
+        return customerMapper.toEntity(customerDTO, operation);
     }
 
     @Override

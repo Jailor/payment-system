@@ -2,8 +2,9 @@ package com.team1.paymentsystem.services.entities;
 
 import com.team1.paymentsystem.dto.AuditDTO;
 import com.team1.paymentsystem.entities.Audit;
-import com.team1.paymentsystem.mappers.AuditMapper;
+import com.team1.paymentsystem.mappers.entity.AuditMapper;
 import com.team1.paymentsystem.repositories.AuditRepository;
+import com.team1.paymentsystem.states.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,8 @@ public class AuditServiceImpl implements AuditService{
         return auditRepository.findById(id).orElse(null);
     }
     @Override
-    public Audit toEntity(AuditDTO auditDTO) {
-        return auditMapper.toEntity(auditDTO);
+    public Audit toEntity(AuditDTO auditDTO, Operation operation) {
+        return auditMapper.toEntity(auditDTO, operation);
     }
 
     @Override

@@ -412,7 +412,7 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> {
      */
     public OperationResponse manageOperation(S systemDTO,
                                              Operation operation, String username){
-        SystemObject mock = toEntity(systemDTO);
+        SystemObject mock = toEntity(systemDTO, operation);
         OperationResponse response = new OperationResponse();
         if(mock == null){
             response.addError(new ErrorInfo(ErrorType.INTERNAL_ERROR, "The data" +
@@ -461,9 +461,9 @@ public class OperationManager<T extends StatusObject, S extends SystemDTO> {
         return dtos;
     }
 
-    public T toEntity(SystemDTO dto) {
+    public T toEntity(SystemDTO dto, Operation operation) {
         Mapper mapper = managerUtils.getMapper(dto);
-        return (T) mapper.toEntity(dto);
+        return (T) mapper.toEntity(dto, operation);
     }
 
     public OperationResponse makeCopy(StatusObject entity) {

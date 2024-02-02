@@ -56,9 +56,10 @@ public interface GeneralService<T extends SystemObject, DTO extends SystemDTO>{
      * Converts a DTO to an entity. Services that implement this method are recommended to
      * delegate the conversion to the appropriate converter or mapper.
      * @param dto - DTO to be converted to entity
+     * @param operation - the operation that is being performed on the object
      * @return entity representation of the DTO, or null if the conversion is not possible
      */
-    T toEntity(DTO dto);
+    T toEntity(DTO dto, Operation operation);
 
     /**
      * Finds all objects that need approval. What this means is different for each system object, but in general

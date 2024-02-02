@@ -36,6 +36,7 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated())
                 // .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .csrf(csrf -> csrf.disable())
+                // security headers
                 .headers(headers -> headers
                 .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
                 .contentSecurityPolicy(cps -> cps.policyDirectives("script-src 'self'")))
@@ -44,6 +45,7 @@ public class WebSecurityConfig {
                 .headers(header -> header.frameOptions((frameOptions) -> frameOptions.deny()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
+                // add the filter before all this
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -54,7 +56,7 @@ public class WebSecurityConfig {
     }
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserInfoUserDetailsService();
+        return new SpringUserService();
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {

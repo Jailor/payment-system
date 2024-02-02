@@ -3,19 +3,10 @@ package com.team1.paymentsystem.managers;
 import com.team1.paymentsystem.dto.customer.CustomerDTO;
 import com.team1.paymentsystem.dto.register.RegisterDTO;
 import com.team1.paymentsystem.dto.user.UserDTO;
-import com.team1.paymentsystem.entities.Account;
-import com.team1.paymentsystem.entities.Balance;
-import com.team1.paymentsystem.entities.Customer;
-import com.team1.paymentsystem.entities.User;
-import com.team1.paymentsystem.entities.common.StatusObject;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
-import com.team1.paymentsystem.mappers.BalanceMapper;
 import com.team1.paymentsystem.repositories.CustomerRepository;
-import com.team1.paymentsystem.services.entities.AccountService;
-import com.team1.paymentsystem.services.entities.BalanceService;
-import com.team1.paymentsystem.services.entities.CustomerService;
 import com.team1.paymentsystem.services.validation.PhoneNumberValidator;
 import com.team1.paymentsystem.states.Operation;
 import lombok.extern.java.Log;
@@ -25,7 +16,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 @Component
 @Transactional(rollbackFor = Exception.class)
 @Log

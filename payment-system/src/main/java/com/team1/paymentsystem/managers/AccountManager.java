@@ -4,7 +4,6 @@ import com.team1.paymentsystem.dto.account.AccountDTO;
 import com.team1.paymentsystem.dto.common.SystemDTO;
 import com.team1.paymentsystem.dto.filter.AccountFilterDTO;
 import com.team1.paymentsystem.entities.*;
-import com.team1.paymentsystem.entities.common.StatusObject;
 import com.team1.paymentsystem.entities.history.AccountHistory;
 import com.team1.paymentsystem.entities.history.CustomerHistory;
 import com.team1.paymentsystem.managers.common.ManagerUtils;
@@ -12,8 +11,8 @@ import com.team1.paymentsystem.managers.common.OperationManager;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
-import com.team1.paymentsystem.mappers.AccountMapper;
-import com.team1.paymentsystem.mappers.BalanceMapper;
+import com.team1.paymentsystem.mappers.entity.AccountMapper;
+import com.team1.paymentsystem.mappers.entity.BalanceMapper;
 import com.team1.paymentsystem.repositories.ExchangeHistoryRepository;
 import com.team1.paymentsystem.services.FilterService;
 import com.team1.paymentsystem.services.entities.AccountService;
@@ -91,6 +90,8 @@ public class AccountManager extends OperationManager<Account, AccountDTO> {
         }
     }
 
+
+
     /**
      * Manages the operation of updating the status of an account,handling the conversion to entity and back to DTO,
      * authorizing with username and validating the payment data in the process.
@@ -102,7 +103,7 @@ public class AccountManager extends OperationManager<Account, AccountDTO> {
     public OperationResponse manageAccountStatusOperation(AccountDTO accountDTO,
                                                     Operation operation, String username){
         AccountMapper mapper = context.getBean(AccountMapper.class);
-        Account account = mapper.toEntity(accountDTO);
+        Account account = mapper.toEntity(accountDTO, operation);
         if(account == null){
             OperationResponse response = new OperationResponse();
             response.addError(new ErrorInfo(ErrorType.INTERNAL_ERROR, "The data" +
@@ -283,6 +284,7 @@ public class AccountManager extends OperationManager<Account, AccountDTO> {
             AccountService accountService = context.getBean(AccountService.class);
             Customer owner = account.getOwner();
             List<Account> accounts = accountService.findByEmail(owner.getEmail());
+            // if its the first account created, set it as default
             if(accounts.size() == 1){
                 owner.setDefaultAccountNumber(account.getAccountNumber());
                 CustomerHistoryService customerHistoryService = context.getBean(CustomerHistoryService.class);

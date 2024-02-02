@@ -1,4 +1,4 @@
-package com.team1.paymentsystem.mappers;
+package com.team1.paymentsystem.mappers.entity;
 
 import com.team1.paymentsystem.dto.balance.BalanceEntryDTO;
 import com.team1.paymentsystem.dto.balance.BalanceRevealDTO;

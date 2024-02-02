@@ -3,7 +3,7 @@ package com.team1.paymentsystem.services.entities;
 import com.team1.paymentsystem.dto.profile.ProfileDTO;
 import com.team1.paymentsystem.entities.Audit;
 import com.team1.paymentsystem.entities.Profile;
-import com.team1.paymentsystem.mappers.ProfileMapper;
+import com.team1.paymentsystem.mappers.entity.ProfileMapper;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.repositories.AuditRepository;
 import com.team1.paymentsystem.repositories.ProfileRepository;
@@ -99,8 +99,8 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public Profile toEntity(ProfileDTO profileDTO) {
-        return profileMapper.toEntity(profileDTO);
+    public Profile toEntity(ProfileDTO profileDTO, Operation operation) {
+        return profileMapper.toEntity(profileDTO, operation);
     }
 
     @Override

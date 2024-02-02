@@ -17,6 +17,7 @@ import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
 import com.team1.paymentsystem.mappers.*;
 import com.team1.paymentsystem.mappers.approve.*;
+import com.team1.paymentsystem.mappers.entity.*;
 import com.team1.paymentsystem.services.entities.*;
 import com.team1.paymentsystem.services.entities.history.*;
 import com.team1.paymentsystem.states.ApplicationConstants;
@@ -27,8 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 
 @Component
@@ -54,12 +53,12 @@ public class ManagerUtils {
         return mapper.toDTO(entity);
     }
 
-    public SystemObject toEntity(SystemDTO dto) {
+    public SystemObject toEntity(SystemDTO dto, Operation operation) {
         if(dto == null){
             return null;
         }
         Mapper mapper = getMapper(dto);
-        return mapper.toEntity(dto);
+        return mapper.toEntity(dto, operation);
     }
 
     public void fourEyesCheck(GeneralService generalService, OperationResponse operationResponse,

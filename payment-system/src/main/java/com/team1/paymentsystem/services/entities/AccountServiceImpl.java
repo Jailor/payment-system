@@ -1,7 +1,7 @@
 package com.team1.paymentsystem.services.entities;
 
 import com.team1.paymentsystem.dto.account.AccountDTO;
-import com.team1.paymentsystem.mappers.AccountMapper;
+import com.team1.paymentsystem.mappers.entity.AccountMapper;
 import com.team1.paymentsystem.entities.Account;
 import com.team1.paymentsystem.entities.Audit;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
@@ -81,8 +81,8 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Account toEntity(AccountDTO accountDTO) {
-        return accountMapper.toEntity(accountDTO);
+    public Account toEntity(AccountDTO accountDTO, Operation operation) {
+        return accountMapper.toEntity(accountDTO, operation);
     }
 
     @Override

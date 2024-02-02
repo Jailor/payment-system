@@ -1,6 +1,5 @@
 package com.team1.paymentsystem.auth;
 
-import com.team1.paymentsystem.entities.Profile;
 import com.team1.paymentsystem.entities.User;
 import com.team1.paymentsystem.services.entities.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,20 +9,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Map;
 
 @Log
 @Component
@@ -31,7 +25,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     ApplicationContext context;
     @Autowired
-    private UserInfoUserDetailsService userInfoUserDetailsService;
+    private SpringUserService springUserService;
     @Autowired
     private JwtService jwtService;
 
@@ -58,7 +52,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userInfoUserDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = springUserService.loadUserByUsername(username);
                 if (jwtService.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

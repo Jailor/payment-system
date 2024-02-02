@@ -5,7 +5,7 @@ import com.team1.paymentsystem.dto.customer.CustomerDTO;
 import com.team1.paymentsystem.dto.filter.*;
 import com.team1.paymentsystem.dto.payment.PaymentDTO;
 import com.team1.paymentsystem.entities.*;
-import com.team1.paymentsystem.mappers.ProfileMapper;
+import com.team1.paymentsystem.mappers.entity.ProfileMapper;
 import com.team1.paymentsystem.dto.profile.ProfileDTO;
 import com.team1.paymentsystem.dto.user.UserDTO;
 import com.team1.paymentsystem.services.entities.*;

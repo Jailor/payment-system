@@ -10,7 +10,6 @@ function VerifyModal({ isOpen, onRequestClose, amount, systemReference}) {
     amount: "",
   });
 
-const PAYMENT_URL = "/payment";
 const VERIFY_PAYMENT_URL = "/payment/verify";
 
   const [show, setShow] = useState(false);
@@ -96,7 +95,7 @@ const VERIFY_PAYMENT_URL = "/payment/verify";
           // Log the response data to the console
           console.log("Transfer response:", response.data);
           console.log("Transfer successful!");
-          window.location.pathname = "/view-payments";
+          window.location.reload();
 
         }
       } catch (error) {

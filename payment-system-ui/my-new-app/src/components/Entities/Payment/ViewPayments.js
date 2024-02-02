@@ -4,10 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "../../../api/axios.js";
 import "../../../styles/View.css";
 import { authenticate } from "../../auth/AuthUtils.js";
-import { useNavigate } from "react-router-dom";
 
 function ViewPayments(props) {
-  const navigate = useNavigate();
   const authResult = authenticate();
 
   const PAYMENT = "/payment";

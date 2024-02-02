@@ -7,12 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserInfoUserDetails implements UserDetails {
+public class SpringUser implements UserDetails {
     private String username;
     private String password;
 
 
-    public UserInfoUserDetails(User user) {
+    public SpringUser(User user) {
         username = user.getUsername();
         password = user.getPassword();
     }

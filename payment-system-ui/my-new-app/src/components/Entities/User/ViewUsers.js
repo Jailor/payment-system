@@ -12,7 +12,6 @@ function ViewUsers() {
   const authResult = authenticate();
 
   const { setUserObject } = useUserContext();
-  const REFRESH = "/redirect/view-users";
   const VIEW_USERS_URL = "/user";
   const FILTER_USERS_URL = "/user/filter";
   const STATUSES_URL = "/constants/statuses";
@@ -115,10 +114,10 @@ function ViewUsers() {
     console.log(response);
     if(response.data.errors.length > 0){
       const userError = response.data.errors.map((error) => error.errorMessage).join("\n");
-      alert("User pperation failed! "  + userError);
+      alert("User operation failed! "  + userError);
     }
     else{
-      navigate(REFRESH);
+      window.location.reload();
     }
   };
 

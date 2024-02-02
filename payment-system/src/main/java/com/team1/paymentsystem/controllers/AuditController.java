@@ -2,7 +2,7 @@ package com.team1.paymentsystem.controllers;
 
 import com.team1.paymentsystem.dto.AuditDTO;
 import com.team1.paymentsystem.entities.Audit;
-import com.team1.paymentsystem.mappers.AuditMapper;
+import com.team1.paymentsystem.mappers.entity.AuditMapper;
 import com.team1.paymentsystem.managers.response.OperationResponse;
 import com.team1.paymentsystem.services.entities.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;

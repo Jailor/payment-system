@@ -13,7 +13,7 @@ import com.team1.paymentsystem.managers.common.OperationManager;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
-import com.team1.paymentsystem.mappers.PaymentMapper;
+import com.team1.paymentsystem.mappers.entity.PaymentMapper;
 import com.team1.paymentsystem.services.FilterService;
 import com.team1.paymentsystem.services.FraudPreventionService;
 import com.team1.paymentsystem.services.entities.*;
@@ -64,7 +64,7 @@ public class PaymentManager {
         response.addErrors(mapper.preValidate(paymentDTO));
         if(!response.isValid()) return response;
 
-        Payment mock = mapper.toEntity(paymentDTO);
+        Payment mock = mapper.toEntity(paymentDTO, operation);
         if(mock == null){
             response.addError(new ErrorInfo(ErrorType.INTERNAL_ERROR, "The data" +
                     "sent could not be mapped to an entity. Please check the data sent."));

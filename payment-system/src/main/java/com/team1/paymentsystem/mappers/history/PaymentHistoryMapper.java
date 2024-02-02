@@ -2,11 +2,11 @@ package com.team1.paymentsystem.mappers.history;
 
 import com.team1.paymentsystem.dto.payment.PaymentDTO;
 import com.team1.paymentsystem.dto.payment.PaymentHistoryDTO;
-import com.team1.paymentsystem.entities.Account;
 import com.team1.paymentsystem.entities.Payment;
 import com.team1.paymentsystem.entities.history.PaymentHistory;
 import com.team1.paymentsystem.mappers.Mapper;
-import com.team1.paymentsystem.mappers.PaymentMapper;
+import com.team1.paymentsystem.mappers.entity.PaymentMapper;
+import com.team1.paymentsystem.states.Operation;
 import com.team1.paymentsystem.states.PaymentStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +35,10 @@ public class PaymentHistoryMapper  implements Mapper<PaymentHistoryDTO, PaymentH
     }
 
     @Override
-    public PaymentHistory toEntity(PaymentHistoryDTO dto) {
+    public PaymentHistory toEntity(PaymentHistoryDTO dto, Operation operation) {
         PaymentDTO paymentDTO = new PaymentDTO();
         BeanUtils.copyProperties(dto,paymentDTO);
-        Payment payment = paymentMapper.toEntity(paymentDTO);
+        Payment payment = paymentMapper.toEntity(paymentDTO, operation);
         PaymentHistory paymentHistory = new PaymentHistory();
         BeanUtils.copyProperties(dto,paymentHistory);
         BeanUtils.copyProperties(payment,paymentHistory);

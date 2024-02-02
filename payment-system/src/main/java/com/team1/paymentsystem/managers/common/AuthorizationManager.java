@@ -5,7 +5,7 @@ import com.team1.paymentsystem.entities.common.SystemObject;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
-import com.team1.paymentsystem.mappers.ProfileMapper;
+import com.team1.paymentsystem.mappers.entity.ProfileMapper;
 import com.team1.paymentsystem.services.entities.UserService;
 import com.team1.paymentsystem.states.Operation;
 import com.team1.paymentsystem.states.ProfileRight;

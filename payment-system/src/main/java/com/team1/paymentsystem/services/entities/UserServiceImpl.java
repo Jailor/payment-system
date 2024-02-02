@@ -3,7 +3,7 @@ package com.team1.paymentsystem.services.entities;
 import com.team1.paymentsystem.dto.user.UserDTO;
 import com.team1.paymentsystem.entities.Audit;
 import com.team1.paymentsystem.entities.User;
-import com.team1.paymentsystem.mappers.UserMapper;
+import com.team1.paymentsystem.mappers.entity.UserMapper;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.repositories.AuditRepository;
 import com.team1.paymentsystem.repositories.ProfileRepository;
@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User toEntity(UserDTO userDTO) {
-        return userMapper.toEntity(userDTO);
+    public User toEntity(UserDTO userDTO, Operation operation) {
+        return userMapper.toEntity(userDTO, operation);
     }
 
     @Override

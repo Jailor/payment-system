@@ -3,7 +3,7 @@ package com.team1.paymentsystem.controllers;
 import com.team1.paymentsystem.dto.balance.BalanceEntryDTO;
 import com.team1.paymentsystem.dto.balance.BalanceRevealDTO;
 import com.team1.paymentsystem.managers.common.AuthorizationManager;
-import com.team1.paymentsystem.mappers.BalanceMapper;
+import com.team1.paymentsystem.mappers.entity.BalanceMapper;
 import com.team1.paymentsystem.entities.Account;
 import com.team1.paymentsystem.entities.Balance;
 import com.team1.paymentsystem.managers.response.OperationResponse;

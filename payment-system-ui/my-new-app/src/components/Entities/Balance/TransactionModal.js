@@ -115,7 +115,7 @@ function TransactionModal({ isOpen, onRequestClose }) {
           // Log the response data to the console
           console.log("Transfer response:", response.data);
           console.log("Transfer successful!");
-          window.location.href = "/view-accounts";
+          window.location.reload();
         }
       } catch (error) {
         // Handle errors here if needed

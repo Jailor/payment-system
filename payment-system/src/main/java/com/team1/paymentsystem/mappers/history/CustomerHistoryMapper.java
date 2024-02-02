@@ -2,10 +2,11 @@ package com.team1.paymentsystem.mappers.history;
 
 import com.team1.paymentsystem.dto.customer.CustomerDTO;
 import com.team1.paymentsystem.dto.customer.CustomerHistoryDTO;
-import com.team1.paymentsystem.mappers.CustomerMapper;
+import com.team1.paymentsystem.mappers.entity.CustomerMapper;
 import com.team1.paymentsystem.mappers.Mapper;
 import com.team1.paymentsystem.entities.Customer;
 import com.team1.paymentsystem.entities.history.CustomerHistory;
+import com.team1.paymentsystem.states.Operation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,10 @@ public class CustomerHistoryMapper implements Mapper<CustomerHistoryDTO, Custome
     }
 
     @Override
-    public CustomerHistory toEntity(CustomerHistoryDTO dto) {
+    public CustomerHistory toEntity(CustomerHistoryDTO dto, Operation operation) {
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(dto,customerDTO);
-        Customer customer = customerMapper.toEntity(customerDTO);
+        Customer customer = customerMapper.toEntity(customerDTO, operation);
         CustomerHistory customerHistory = new CustomerHistory();
         BeanUtils.copyProperties(dto,customerHistory);
         customerHistory.setId(0);

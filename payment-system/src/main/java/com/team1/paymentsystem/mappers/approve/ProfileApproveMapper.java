@@ -1,7 +1,7 @@
 package com.team1.paymentsystem.mappers.approve;
 
 import com.team1.paymentsystem.dto.approval.ProfileApproveDTO;
-import com.team1.paymentsystem.mappers.ProfileMapper;
+import com.team1.paymentsystem.mappers.entity.ProfileMapper;
 import com.team1.paymentsystem.entities.common.AbstractProfile;
 import com.team1.paymentsystem.states.Operation;
 import org.springframework.beans.BeanUtils;

@@ -4,7 +4,6 @@ import com.team1.paymentsystem.dto.common.SystemDTO;
 import com.team1.paymentsystem.dto.filter.UserFilterDTO;
 import com.team1.paymentsystem.dto.login.ChangePasswordDTO;
 import com.team1.paymentsystem.dto.user.UserDTO;
-import com.team1.paymentsystem.entities.Account;
 import com.team1.paymentsystem.entities.Customer;
 import com.team1.paymentsystem.entities.User;
 import com.team1.paymentsystem.entities.common.StatusObject;
@@ -14,7 +13,7 @@ import com.team1.paymentsystem.managers.common.OperationManager;
 import com.team1.paymentsystem.managers.response.ErrorInfo;
 import com.team1.paymentsystem.managers.response.ErrorType;
 import com.team1.paymentsystem.managers.response.OperationResponse;
-import com.team1.paymentsystem.mappers.UserMapper;
+import com.team1.paymentsystem.mappers.entity.UserMapper;
 import com.team1.paymentsystem.services.FilterService;
 import com.team1.paymentsystem.services.LoginService;
 import com.team1.paymentsystem.services.PasswordAuthentication;
@@ -75,7 +74,7 @@ public class UserManager extends OperationManager<User, UserDTO> {
     public OperationResponse manageUserOperation(UserDTO userDTO,
                                                  Operation operation, String username){
         UserMapper mapper = context.getBean(UserMapper.class);
-        User user = mapper.toEntity(userDTO);
+        User user = mapper.toEntity(userDTO, operation);
         if(user == null){
             OperationResponse response = new OperationResponse();
             response.addError(new ErrorInfo(ErrorType.INTERNAL_ERROR, "The data" +
